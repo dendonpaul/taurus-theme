@@ -8,7 +8,7 @@ function tauras_theme_enqueue_scripts(){
     wp_enqueue_style('tauras-theme-extra-css',get_template_directory_uri().'/build/index.css');
     //Enqueue Scripts
     wp_enqueue_script('tauras-main-js',get_theme_file_uri('/build/index.js'),['jquery'],1.0,true);
-    wp_enqueue_script('tauras-googlemaps-js','//maps.googleapis.com/maps/api/js?key=AIzaSyC8JtvmSHV32RK2WpueRvX0ZZMIzOdDoPM',NULL,1.0,false);
+    wp_enqueue_script('tauras-googlemaps-js','//maps.googleapis.com/maps/api/js?key=Enter your API Key',NULL,1.0,false);
 }
 
 //Function to enable Theme Features
@@ -170,5 +170,5 @@ add_action('pre_get_posts', 'tauras_filter_event_query');
 //Filter Hooks
 add_filter('acf/fields/google_map/api', 'tauras_acf_googlemap_filter');
 
-
+//AIzaSyC8JtvmSHV32RK2WpueRvX0ZZMIzOdDoPM
 ?>
