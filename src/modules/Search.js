@@ -5,12 +5,19 @@ const Search = () => {
   const searchInputField = document.querySelector("#search-term");
   const searchResultsDiv = document.querySelector("#search-overlay__results");
 
+  const selectAllInputFields = document.querySelectorAll("input");
+  const selectAllTextArea = document.querySelectorAll("textarea");
+  console.log(selectAllInputFields, selectAllTextArea);
+
   //Timer Vairable
   let timerOut;
   //Spinner status
   let isSpinnerActive = false;
-
+  //Input value
+  let previousValue;
+  //Overlay status
   let overlayOpened = false;
+  //is any input field focused
 
   //Methods
   //Open overlay
@@ -24,18 +31,33 @@ const Search = () => {
       //rest input field to empty when overlay closed
       searchInputField.value = "";
     }, 100);
+    if (!overlayOpened) {
+      searchResultsDiv.innerHTML = "";
+    }
   };
 
   //check Key press S and Esc
   const checkKeyPress = (e) => {
+    let inputActive = checkInputActive();
+    console.log(inputActive);
     //open overlay if 'S' key pressed and overlay is not already active
-    if (e.keyCode === 83 && !overlayOpened) {
+    if (e.keyCode === 83 && !overlayOpened && !inputActive) {
       openCloseOverlay();
     }
     //close overlay if 'Esc' key pressed and overlay in already active
     if (e.keyCode === 27 && overlayOpened) {
       openCloseOverlay();
     }
+  };
+
+  //Check if input fields are selected. Disable S and Esc functionality to open overlay, if true
+  const checkInputActive = () => {
+    if (
+      document.activeElement.tagName === "INPUT" ||
+      document.activeElement.tagName === "TEXTAREA"
+    ) {
+      return true;
+    } else return false;
   };
 
   //Timer function
@@ -48,17 +70,25 @@ const Search = () => {
 
   //Search Function with Timeout
   const searchFunction = () => {
-    //load spinner wit initial key down
-    if (!isSpinnerActive) {
-      searchResultsDiv.innerHTML = "<div class='spinner-loader'></div>";
-      isSpinnerActive = true;
+    //run functionality only if search field is empty and there is a change in the input value
+    if (previousValue !== searchInputField.value || previousValue !== "") {
+      //load spinner wit initial key down
+      if (!isSpinnerActive) {
+        searchResultsDiv.innerHTML = "<div class='spinner-loader'></div>";
+        isSpinnerActive = true;
+        timerFn();
+      }
     }
-    timerFn();
+    previousValue = searchInputField.value;
   };
 
   //Get Results
   const getResults = () => {
-    searchResultsDiv.innerHTML = "This is the results";
+    if (previousValue !== "") {
+      searchResultsDiv.innerHTML = "This is the results";
+    } else {
+      searchResultsDiv.innerHTML = "";
+    }
     isSpinnerActive = false;
   };
 
