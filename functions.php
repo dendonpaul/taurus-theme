@@ -157,7 +157,7 @@ function pageBanner($args=NULL){
 
 //ACF Google Map API Filter
 function tauras_acf_googlemap_filter($args){
-    $args['key'] = 'AIzaSyC8JtvmSHV32RK2WpueRvX0ZZMIzOdDoPM';
+    $args['key'] = 'Enter your API key';
     return $args;
 }
 

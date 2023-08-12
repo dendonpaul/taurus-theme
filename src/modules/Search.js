@@ -7,6 +7,8 @@ const Search = () => {
 
   //Timer Vairable
   let timerOut;
+  //Spinner status
+  let isSpinnerActive = false;
 
   let overlayOpened = false;
 
@@ -47,13 +49,17 @@ const Search = () => {
   //Search Function with Timeout
   const searchFunction = () => {
     //load spinner wit initial key down
-    searchResultsDiv.innerHTML = "<div class='spinner-loader'></div>";
+    if (!isSpinnerActive) {
+      searchResultsDiv.innerHTML = "<div class='spinner-loader'></div>";
+      isSpinnerActive = true;
+    }
     timerFn();
   };
 
   //Get Results
   const getResults = () => {
     searchResultsDiv.innerHTML = "This is the results";
+    isSpinnerActive = false;
   };
 
   //------------------Events----------------------------//
