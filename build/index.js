@@ -207,6 +207,7 @@ const Search = () => {
     searchOverlayOpen.classList.toggle("search-overlay--active");
     document.getElementsByTagName("body")[0].classList.toggle("body-no-scroll");
     overlayOpened = !overlayOpened;
+    //setTimeout for autofocus on search input
     setTimeout(() => {
       //focus input field on openoverlay
       searchInputField.focus();
@@ -244,7 +245,7 @@ const Search = () => {
     clearTimeout(timerOut);
     timerOut = setTimeout(() => {
       return getResults();
-    }, 1000);
+    }, 500);
   };
 
   //Search Function with Timeout
@@ -262,9 +263,17 @@ const Search = () => {
   };
 
   //Get Results
-  const getResults = () => {
+  const getResults = async () => {
     if (previousValue !== "") {
-      searchResultsDiv.innerHTML = "This is the results";
+      let jsonData = await fetch("/wp-json/wp/v2/pages?search=" + previousValue).then(res => res.json()).then(res => {
+        return res;
+      });
+      searchResultsDiv.innerHTML = `
+        <h2 class="search-overlay__section-title">Search Results</h2>
+        <ul class="link-list min-list">
+          ${jsonData.map(result => `<li><a href="${result.link}">${result.title.rendered}</a></li>`).join("")}
+        </ul>
+        `;
     } else {
       searchResultsDiv.innerHTML = "";
     }
