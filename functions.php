@@ -166,11 +166,19 @@ function tauras_acf_googlemap_filter($args){
     return $args;
 }
 
+//Register REstAPI item
+function taurus_custom_rest(){
+    register_rest_field('post','authorName',array(
+        'get_callback' => function(){ return get_the_author();}
+    ));
+}
+
 //Action hooks
 add_action('wp_enqueue_scripts', "tauras_theme_enqueue_scripts");
 add_action('after_setup_theme','tauras_features');
 add_action('init', 'tauras_events_post_type');
 add_action('pre_get_posts', 'tauras_filter_event_query');
+add_Action('rest_api_init','taurus_custom_rest');
 
 //Filter Hooks
 add_filter('acf/fields/google_map/api', 'tauras_acf_googlemap_filter');

@@ -300,10 +300,9 @@ const Search = () => {
         <h2 class="search-overlay__section-title">Search Results</h2>
         ${jsonData.length === 0 ? "No Results Found" : `
           <ul class="link-list min-list">
-            ${jsonData.map(result => `<li><a href="${result.link}">${result.title.rendered}</a></li>`).join("")}
+            ${jsonData.map(result => `<li><a href="${result.link}">${result.title.rendered}</a> ${result.type == 'post' ? "by " + result.authorName : ""}</li>`).join("")}
           </ul>
           `}
-        
         `;
     } else {
       searchResultsDiv.innerHTML = "";
