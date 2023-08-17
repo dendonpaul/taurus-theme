@@ -9,6 +9,11 @@ function tauras_theme_enqueue_scripts(){
     //Enqueue Scripts
     wp_enqueue_script('tauras-main-js',get_theme_file_uri('/build/index.js'),['jquery'],1.0,true);
     wp_enqueue_script('tauras-googlemaps-js','//maps.googleapis.com/maps/api/js?key=Enter your API Key',NULL,1.0,false);
+
+    //Localise script
+    wp_localize_script('tauras-main-js','taurusData',array(
+        'root_url'=> get_site_url()
+    ));
 }
 
 //Function to enable Theme Features
