@@ -113,30 +113,90 @@ const Search = () => {
   const getResults = async () => {
     if (previousValue !== "") {
       //Fetch pages based on search
-      let jsonDataPages = await fetch(taurusData.root_url+"/wp-json/wp/v2/pages?search=" + previousValue)
+      let jsonData = await fetch(taurusData.root_url+"/wp-json/taurus/v1/search?term=" + previousValue)
         .then((res) => res.json())
         .then((res) => {
           return res;
         });
-      //Fetch posts based on search
-      let  jsonDataPosts = await fetch(taurusData.root_url+"/wp-json/wp/v2/posts?search=" + previousValue)
-      .then(res=>res.json())
-      .then(res=>res)
-
-      //Merge both results
-      let jsonData = [...jsonDataPages, ...jsonDataPosts]
-      console.log(jsonDataPages, jsonDataPosts, jsonData)
-
+        console.log(jsonData.generalInfo.map(data=>data))
       //Print resuts on results div
       searchResultsDiv.innerHTML = `
-        <h2 class="search-overlay__section-title">Search Results</h2>
-        ${jsonData.length === 0  ? "No Results Found" : `
-          <ul class="link-list min-list">
-            ${jsonData.map((result) => `<li><a href="${result.link}">${result.title.rendered}</a> ${result.type=='post' ? "by " +result.authorName:""}</li>`)
-            .join("")}
-          </ul>
-          `
-        }
+        <div class="row">
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">General Information</h2>
+              <ul class="link-list min-list">
+              ${jsonData.generalInfo.length>0 
+                ? jsonData.generalInfo.map(data=>{
+                  return `
+                    <li><a href='${data.link}'>${data.name}</a> ${data.postType=='post' ? `by ${data.postAuthor}` : ''}</li>
+                  `
+                }).join(' ')
+                : "No General Info found"
+              }
+              </ul>
+          </div>
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">Programmes</h2>
+            <ul class="link-list min-list">
+              ${jsonData.programmes.length > 0 
+                ? jsonData.programmes.map(data=>{
+                  return `
+                    <li><a href='${data.link}'>${data.name}</a></li>
+                  `
+                }).join(' ')
+                : `No Programmes found. <a href="${taurusData.root_url}/programmes">View All Programmes</a>`
+              }
+              </ul>
+            <h2 class="search-overlay__section-title">Professors</h2>
+            <ul class="professor-cards">
+              ${jsonData.professors.length > 0
+                ? jsonData.professors.map(data=>{
+                  return `
+                    <li class="professor-card__list-item">
+                      <a class="professor-card" href='${data.link}'>
+                        <img class="professor-card__image" src="${data.imageURL}"/>
+                        <span class="professor-card__name">${data.name}</span>
+                      </a>
+                    </li>
+                  `
+                  }).join(' ')
+                : `No Professors found. <a href="${taurusData.root_url}/professors">View All Professors</a>`
+              }
+              </ul>
+          </div>
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">Campuses</h2>
+            <ul class="link-list min-list">
+              ${jsonData.campuses.length > 0 
+                ? jsonData.campuses.map(data=>{
+                  return `
+                    <li><a href='${data.link}'>${data.name}</a></li>
+                  `
+                  }).join(' ')
+                : `No Campuses found. <a href="${taurusData.root_url}/campuses">View All Campuses</a>`
+              }
+              </ul>
+            <h2 class="search-overlay__section-title">Events</h2>
+              ${jsonData.events.length > 0 
+                ? jsonData.events.map(data=>{
+                    return `
+                    <div class="event-summary">
+                      <a class="event-summary__date event-summary__date--beige t-center" href="#">
+                        <span class="event-summary__month">${data.eventMonth}</span>
+                        <span class="event-summary__day">${data.eventDay}</span>
+                      </a>
+                      <div class="event-summary__content">
+                        <h5 class="event-summary__title headline headline--tiny"><a href="${data.link}">${data.name}</a></h5>
+                        <p></p>
+                      </div>
+                    </div>
+                    `
+                  }).join(' ')
+                : "No events found. <a href=''>View All Events</a>"
+              }
+          </div>
+        </div>
+        
         `;
     } else {
       searchResultsDiv.innerHTML = "";

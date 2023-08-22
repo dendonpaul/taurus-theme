@@ -90,7 +90,7 @@ function tauras_events_post_type(){
     register_post_type('professor', array(
         'show_in_rest'=>true,
          'public'=>true,
-         'has_archive'=>false,
+         'has_archive'=>true,
          'rewrite'=>array(
             'slug'=>'professors'
          ),

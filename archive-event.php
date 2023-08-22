@@ -13,7 +13,7 @@
          }
     echo paginate_links();wp_reset_postdata();
     ?>
-    Looking for a recap? <a href="<?php site_url('/past-events')?>">Check out the past event.</a>
+    Looking for a recap? <a href="<?php echo site_url('/past-events')?>">Check out the past event.</a>
   </div>
   
 <?php get_footer()?>
