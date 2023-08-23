@@ -47,7 +47,8 @@ const Search = () => {
 
   //Methods
   //Open overlay
-  const openCloseOverlay = () => {
+  const openCloseOverlay = (e) => {
+    e.preventDefault();
     searchOverlayOpen.classList.toggle("search-overlay--active");
     document.getElementsByTagName("body")[0].classList.toggle("body-no-scroll");
     overlayOpened = !overlayOpened;
