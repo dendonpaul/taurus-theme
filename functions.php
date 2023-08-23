@@ -74,7 +74,7 @@ function tauras_events_post_type(){
         'rewrite'=>array(
             'slug'=>'programmes',
         ),
-        'supports'=>array('title','editor','excerpt'),
+        'supports'=>array('title','excerpt'),
         'menu_icon'=>'dashicons-book',
         'has_archive'=>true,
         'labels'=>array(

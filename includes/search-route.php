@@ -62,6 +62,17 @@ function taurusSearchResults($data){
         }
         //push to programs
         if(get_post_type() == 'programme'){
+            $relatedCampuses = get_field('related_campuses');
+
+            if($relatedCampuses){
+                foreach($relatedCampuses as $campus){
+                    array_push($results['campuses'], array(
+                        'name'=>get_the_title($campus),
+                        'link'=>get_the_permalink($campus)
+                    ));
+                }
+            }
+            
             array_push($results['programmes'],array(
                 'name'=>get_the_title(),
                 'link'=>get_the_permalink(),
@@ -70,43 +81,50 @@ function taurusSearchResults($data){
             ));
         }
     }
+    
+    //Display related professors under professor section, if a programme is in the search results.
+    if($results['programmes']){
+        $metaQueryForRelatedDatas = array('relation'=>'OR');
+        foreach($results['programmes'] as $item){
+            array_push($metaQueryForRelatedDatas, array(
+                'key' => 'related_programme',
+                'compare' => 'LIKE',
+                'value' => $item['id']
+            ));
+        }
 
-    $programRelationQuery = new WP_Query(array(
-        'post_type'=>'professor', 
-        'meta_query'=> array(
-            array(
-                "key" => 'related_programme',
-                "compare" => 'LIKE',
-                "value" =>'"53"'
-            )
-        )
-    ));
-
-   //Display related professors under professor section, if a programme is in the search results.
-   $showRelatedProfessors = new WP_Query(array(
-    'post_type' => 'professor',
-    'meta_query' => array(
-        array(
-            'key' => 'related_programme',
-            'compare' => 'LIKE',
-            'value' => '"'.$results['programmes'][0]['id'].'"',
-        )
-    )
-   ));
-
-   while($showRelatedProfessors->have_posts()){
-    $showRelatedProfessors->the_post();
-
-    if(get_post_type() == 'professor'){
-        array_push($results['professors'], array(
-            'name'=>get_the_title(),
-            'link'=>get_the_permalink(),
-            'imageURL'=>get_the_post_thumbnail_url()
+        $showRelatedProfessors = new WP_Query(array(
+            'post_type' => array('professor','event','campus'),
+            'meta_query' => $metaQueryForRelatedDatas
         ));
-    }
-   }
 
-   $results['professors'] = array_values(array_unique($results['professors'],SORT_REGULAR));
+        while($showRelatedProfessors->have_posts()){
+            $showRelatedProfessors->the_post();
+
+            if(get_post_type() == 'professor'){
+                array_push($results['professors'], array(
+                    'name'=>get_the_title(),
+                    'link'=>get_the_permalink(),
+                    'imageURL'=>get_the_post_thumbnail_url()
+                ));
+            }
+
+            //Get related events
+            if(get_post_type() == 'event'){
+                array_push($results['events'], array(
+                    'name'=>get_the_title(),
+                    'link'=>get_the_permalink(),
+                    'eventMonth'=>get_the_time('M'),
+                    'eventDay'=>get_the_time('d'),
+                    'eventContent'=>wp_trim_words(get_the_content(),18)
+                ));
+            }
+            
+        }
+
+        $results['professors'] = array_values(array_unique($results['professors'],SORT_REGULAR));   
+        $results['events'] = array_values(array_unique($results['events'],SORT_REGULAR));   
+    }
     
     return $results;
 }
