@@ -1,5 +1,4 @@
 /******/ (function() { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/index.js":
@@ -8,15 +7,19 @@
   \**********************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css/style.scss */ "./css/style.scss");
 /* harmony import */ var _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/MobileMenu */ "./src/modules/MobileMenu.js");
 /* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
 /* harmony import */ var _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/GoogleMap */ "./src/modules/GoogleMap.js");
 /* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
+/* harmony import */ var _modules_MyNotes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/MyNotes */ "./src/modules/MyNotes.js");
+/* harmony import */ var _modules_MyNotes__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_modules_MyNotes__WEBPACK_IMPORTED_MODULE_5__);
 
 
 // Our modules / classes
+
 
 
 
@@ -27,6 +30,7 @@ const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default
 const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
 const googleMap = new _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_3__["default"]();
 const searchJs = (0,_modules_Search__WEBPACK_IMPORTED_MODULE_4__["default"])();
+const myNotes = _modules_MyNotes__WEBPACK_IMPORTED_MODULE_5___default()();
 
 /***/ }),
 
@@ -36,6 +40,7 @@ const searchJs = (0,_modules_Search__WEBPACK_IMPORTED_MODULE_4__["default"])();
   \**********************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 class GMap {
   constructor() {
@@ -116,6 +121,7 @@ class GMap {
   \***********************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _glidejs_glide__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @glidejs/glide */ "./node_modules/@glidejs/glide/dist/glide.esm.js");
 
@@ -154,6 +160,7 @@ class HeroSlider {
   \***********************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 class MobileMenu {
   constructor() {
@@ -174,12 +181,23 @@ class MobileMenu {
 
 /***/ }),
 
+/***/ "./src/modules/MyNotes.js":
+/*!********************************!*\
+  !*** ./src/modules/MyNotes.js ***!
+  \********************************/
+/***/ (function() {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/src/modules/MyNotes.js: Unexpected token, expected \"{\" (43:4)\n\n\u001b[0m \u001b[90m 41 |\u001b[39m         }\u001b[36mcatch\u001b[39m(err)\u001b[0m\n\u001b[0m \u001b[90m 42 |\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 43 |\u001b[39m     }\u001b[0m\n\u001b[0m \u001b[90m    |\u001b[39m     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 44 |\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 45 |\u001b[39m     \u001b[90m//Edit Note\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 46 |\u001b[39m     \u001b[36mconst\u001b[39m editNote \u001b[33m=\u001b[39m \u001b[36masync\u001b[39m(e)\u001b[33m=>\u001b[39m{\u001b[0m\n    at instantiate (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:653:32)\n    at constructor (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:947:12)\n    at JSXParserMixin.raise (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:3271:19)\n    at JSXParserMixin.unexpected (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:3301:16)\n    at JSXParserMixin.expect (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:3643:28)\n    at JSXParserMixin.parseBlock (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:13106:10)\n    at /Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:13026:72\n    at JSXParserMixin.withSmartMixTopicForbiddingContext (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:12242:14)\n    at JSXParserMixin.parseTryStatement (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:13026:26)\n    at JSXParserMixin.parseStatementContent (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:12596:21)\n    at JSXParserMixin.parseStatementLike (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:12557:17)\n    at JSXParserMixin.parseStatementListItem (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:12537:17)\n    at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:13129:61)\n    at JSXParserMixin.parseBlockBody (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:13122:10)\n    at JSXParserMixin.parseBlock (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:13110:10)\n    at JSXParserMixin.parseFunctionBody (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:11932:24)\n    at JSXParserMixin.parseArrowExpression (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:11907:10)\n    at JSXParserMixin.parseAsyncArrowFromCallExpression (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:11084:10)\n    at JSXParserMixin.parseCoverCallAndAsyncArrowHead (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10995:27)\n    at JSXParserMixin.parseSubscript (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10922:19)\n    at JSXParserMixin.parseSubscripts (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10893:19)\n    at JSXParserMixin.parseExprSubscripts (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10884:17)\n    at JSXParserMixin.parseUpdate (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10863:21)\n    at JSXParserMixin.parseMaybeUnary (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10839:23)\n    at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10677:61)\n    at JSXParserMixin.parseExprOps (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10682:23)\n    at JSXParserMixin.parseMaybeConditional (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10659:23)\n    at JSXParserMixin.parseMaybeAssign (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10620:21)\n    at /Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10590:39\n    at JSXParserMixin.allowInAnd (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:12260:16)\n    at JSXParserMixin.parseMaybeAssignAllowIn (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10590:17)\n    at JSXParserMixin.parseVar (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:13201:91)\n    at JSXParserMixin.parseVarStatement (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:13040:10)\n    at JSXParserMixin.parseStatementContent (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:12637:23)\n    at JSXParserMixin.parseStatementLike (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:12557:17)\n    at JSXParserMixin.parseStatementListItem (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:12537:17)\n    at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:13129:61)\n    at JSXParserMixin.parseBlockBody (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:13122:10)\n    at JSXParserMixin.parseBlock (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:13110:10)\n    at JSXParserMixin.parseFunctionBody (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:11932:24)\n    at JSXParserMixin.parseArrowExpression (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:11907:10)\n    at JSXParserMixin.parseParenAndDistinguishExpression (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:11510:12)\n    at JSXParserMixin.parseExprAtom (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:11149:23)\n    at JSXParserMixin.parseExprAtom (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:7008:20)\n    at JSXParserMixin.parseExprSubscripts (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10880:23)\n    at JSXParserMixin.parseUpdate (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10863:21)\n    at JSXParserMixin.parseMaybeUnary (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10839:23)\n    at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10677:61)\n    at JSXParserMixin.parseExprOps (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10682:23)\n    at JSXParserMixin.parseMaybeConditional (/Users/dennypaul/Local Sites/themedev/app/public/wp-content/themes/tauras-theme/node_modules/@babel/parser/lib/index.js:10659:23)");
+
+/***/ }),
+
 /***/ "./src/modules/Search.js":
 /*!*******************************!*\
   !*** ./src/modules/Search.js ***!
   \*******************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 const Search = () => {
   //ADD SEARCH HTML TO THE PAGE
@@ -208,7 +226,6 @@ const Search = () => {
   const searchResultsDiv = document.querySelector("#search-overlay__results");
   const selectAllInputFields = document.querySelectorAll("input");
   const selectAllTextArea = document.querySelectorAll("textarea");
-  console.log(selectAllInputFields, selectAllTextArea);
 
   //Timer Vairable
   let timerOut;
@@ -385,6 +402,7 @@ const Search = () => {
   \************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
@@ -397,6 +415,7 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************/
 /***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ Glide; }
@@ -4342,6 +4361,18 @@ var Glide = /*#__PURE__*/function (_Core) {
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	}();
 /******/ 	

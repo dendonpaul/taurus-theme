@@ -13,7 +13,8 @@ function tauras_theme_enqueue_scripts(){
 
     //Localise script
     wp_localize_script('tauras-main-js','taurusData',array(
-        'root_url'=> get_site_url()
+        'root_url'=> get_site_url(),
+        'nonce'=>wp_create_nonce('wp_rest')
     ));
 }
 
@@ -32,10 +33,12 @@ function tauras_features(){
 
 //Tauras theme custom post types
 //Function to create post type
-function tauras_events_post_type(){
+function tauras_custom_post_type(){
 
     //Register Campus Post Type
     register_post_type('campus',array(
+        'capability_type'=>'campus',
+        'map_meta_cap'=>true,
         'public'=>true,
         'show_in_rest'=>true,
         'supports'=>array('title','editor', 'excerpt'),
@@ -52,6 +55,8 @@ function tauras_events_post_type(){
     ));
     //Register Event Post Type
     register_post_type('event',array(
+        'capability_type'=>'event',
+        'map_meta_cap'=>true,
         'public'=>true,
         'show_in_rest'=>true,
         'supports'=>array('title','editor', 'excerpt'),
@@ -74,6 +79,8 @@ function tauras_events_post_type(){
         'rewrite'=>array(
             'slug'=>'programmes',
         ),
+        'capability_type'=>'programme',
+        'map_meta_cap'=>true,
         'supports'=>array('title','excerpt'),
         'menu_icon'=>'dashicons-book',
         'has_archive'=>true,
@@ -94,6 +101,8 @@ function tauras_events_post_type(){
          'rewrite'=>array(
             'slug'=>'professors'
          ),
+         'capability_type'=>'professor',
+         'map_meta_cap'=>true,
          'supports'=>array('title','editor','thumbnail'),
          'menu_icon'=>'dashicons-businessperson',
          'labels'=>array(
@@ -103,7 +112,22 @@ function tauras_events_post_type(){
             'edit_item'=>'Edit Professor',
             'all_items'=>'All Professors'
          )
-        ));
+    ));
+
+    //Note post type
+    register_post_type('note', array(
+        'show_in_rest'=>true,
+        'show_ui'=>true,
+        'supports'=>array('title','editor'),
+        'menu_icon'=>'dashicons-edit-page',
+        'labels'=>array(
+            'name'=>'Notes',
+            'singular_name'=>'Note',
+            'add_new_item'=>'Add new Note',
+            'edit_item'=>'Edit Note',
+            'all_items'=>'All Notes'
+        )
+    ));
 }
 
 //Function to filter event queries for Events Archive
@@ -174,15 +198,44 @@ function taurus_custom_rest(){
     ));
 }
 
+//Redirect subscriber user
+function redirectSubscriber(){
+    $currentUser = wp_get_current_user();
+    if(count($currentUser->roles) == 1 && $currentUser->roles[0] == 'subscriber'){
+        wp_redirect(site_url('/'));
+        exit;
+    }
+}
+
+//customize login page header url
+function changeHeaderURL(){
+    return site_url('/');
+}
+
+
+//hide admin bar for 
+function hideAdminBarforSubUsers(){
+    $currentUser = wp_get_current_user();
+    if(count($currentUser->roles) == 1 && $currentUser->roles[0] == 'subscriber'){
+        show_admin_bar(false);
+    }
+}
+
 //Action hooks
 add_action('wp_enqueue_scripts', "tauras_theme_enqueue_scripts");
 add_action('after_setup_theme','tauras_features');
-add_action('init', 'tauras_events_post_type');
+add_action('init', 'tauras_custom_post_type');
 add_action('pre_get_posts', 'tauras_filter_event_query');
-add_Action('rest_api_init','taurus_custom_rest');
+add_action('rest_api_init','taurus_custom_rest');
+
+//redirect to frontend if user is subscriber.
+add_action('admin_init','redirectSubscriber');
+//hide admin bar for subscribers
+add_action('wp_loaded','hideAdminBarforSubUsers');
 
 //Filter Hooks
 add_filter('acf/fields/google_map/api', 'tauras_acf_googlemap_filter');
+add_filter('login_headerurl', 'changeHeaderURL');
 
 //AIzaSyC8JtvmSHV32RK2WpueRvX0ZZMIzOdDoPM
 ?>

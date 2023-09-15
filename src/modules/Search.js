@@ -30,7 +30,6 @@ const Search = () => {
 
   const selectAllInputFields = document.querySelectorAll("input");
   const selectAllTextArea = document.querySelectorAll("textarea");
-  console.log(selectAllInputFields, selectAllTextArea);
 
   //Timer Vairable
   let timerOut;
