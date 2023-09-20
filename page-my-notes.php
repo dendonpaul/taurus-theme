@@ -9,6 +9,12 @@ get_header() ?>
         <?php pageBanner();?>
 
     <div class="container container--narrow page-section">
+        <div class="create-note">
+            <h2 class="headline headline--medium">Add new Note</h2>
+            <input class="new-note-title" type="text" placeholder="Title"/>
+            <textarea class="new-note-body" placeholder="Your note here..."></textarea>
+            <span class="submit-note">Create Note</span>
+        </div>
         <ul class="min-list link-list" id="my-notes">
             <?php 
             $notes = new WP_Query(array(

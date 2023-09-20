@@ -7,6 +7,7 @@ const MyNotes = ()=>{
     const allTextAreaFields = document.querySelectorAll('.note-body-field');
     const saveButton = document.querySelectorAll('#save-note');
     const cancelEditButton = document.querySelectorAll('#cancel-edit');
+    const createNewNoteButton = document.querySelector('.submit-note');
  
     //Methods--------------------------------------------------------------//
     //Delete Note
@@ -17,28 +18,28 @@ const MyNotes = ()=>{
         }
         //confrim
         if(confirm('Delete')){
-            axios.delete(taurusData.root_url+`/wp-json/wp/v2/note/${ID}`,{data},{headers})
+            axios.delete(taurusData.root_url+`/wp-json/wp/v2/note/${ID}`,{headers})
         .then(res=>e.target.parentElement.remove())
         }else{
             alert('not deleted');
         } 
     }
 
-    //Currently editing
     //Update Note
     const updateNote = async (e)=>{
         const ID = e.target.parentElement.dataset.id
         const headers = {
-            'X-WP-Nonce' : taurusData.nonce
+            'X-WP-Nonce' : taurusData.nonce,
         }
         const data = {
             'title' : e.target.parentElement.querySelector('.note-title-field').value,
             'content': e.target.parentElement.querySelector('.note-body-field').value,
         }
-        console.log(data)
         try{
-            axios.put(taurusData.root_url+`/wp-json/wp/v2/note/${ID}`,{data},{headers}).then(res=>console.log(res));
-        }catch(err)
+            await axios.put(taurusData.root_url+`/wp-json/wp/v2/note/${ID}`,data,{headers}).then(deactivateEditFields);
+        }catch(err){
+            console.log(err)
+        }
 
     }
 
@@ -66,8 +67,6 @@ const MyNotes = ()=>{
         })
     }
     //cancel edit
-    
-
     // deactivate edit fields.
     const deactivateEditFields = () => {
         //disable all input fields.
@@ -88,21 +87,44 @@ const MyNotes = ()=>{
         
     }
 
+    //create new note
+    const saveNewNote = async (e) => {
+        // const ID = e.target.parentElement.dataset.id
+        const headers = {
+            'X-WP-Nonce' : taurusData.nonce,
+        }
+        const data = {
+            'title' : document.querySelector('.new-note-title').value,
+            'content': document.querySelector('.new-note-body').value,
+            'status': 'publish'
+        }
+        try{
+            await axios.post(taurusData.root_url+`/wp-json/wp/v2/note/`,data,{headers}).then(res => console.log("Notes Created"));
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     //events---------------------------------------------------------------//
     //delete button event
     deleteNoteButton.forEach(data=>{
         data.addEventListener('click',deleteNote);
-    })
+    });
     //edit button event
     editNoteButton.forEach(data=>{
         data.addEventListener('click',editNote);
-    })
+    });
+    //cancel button
     cancelEditButton.forEach(data=>{
         data.addEventListener('click',deactivateEditFields);
-    })
+    });
+    //save updated notes
     saveButton.forEach(data => {
         data.addEventListener('click',updateNote)
-    })
+    });
+    //create new note
+    createNewNoteButton.addEventListener('click',saveNewNote);
+
 }
 
 export default MyNotes
