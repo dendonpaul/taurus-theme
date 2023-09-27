@@ -187,14 +187,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 
 const MyNotes = () => {
-  const deleteNoteButton = document.querySelectorAll('.delete-note');
-  const editNoteButton = document.querySelectorAll('.edit-note');
-  const allTitleFields = document.querySelectorAll('.note-title-field');
-  const allTextAreaFields = document.querySelectorAll('.note-body-field');
-  const saveButton = document.querySelectorAll('#save-note');
-  const cancelEditButton = document.querySelectorAll('#cancel-edit');
-  const createNewNoteButton = document.querySelector('.submit-note');
-
+  let deleteNoteButton = document.querySelectorAll('.delete-note');
+  let editNoteButton = document.querySelectorAll('.edit-note');
+  let allTitleFields = document.querySelectorAll('.note-title-field');
+  let allTextAreaFields = document.querySelectorAll('.note-body-field');
+  let saveButton = document.querySelectorAll('#save-note');
+  let cancelEditButton = document.querySelectorAll('#cancel-edit');
+  let createNewNoteButton = document.querySelector('.submit-note');
+  let notesBody = document.getElementById('my-notes');
+  let errorSpan = document.getElementById('error');
   //Methods--------------------------------------------------------------//
   //Delete Note
   const deleteNote = async e => {
@@ -206,7 +207,12 @@ const MyNotes = () => {
     if (confirm('Delete')) {
       axios__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"](taurusData.root_url + `/wp-json/wp/v2/note/${ID}`, {
         headers
-      }).then(res => e.target.parentElement.remove());
+      }).then(res => {
+        if (res.data.id) {
+          e.target.parentElement.parentElement.remove();
+        }
+      });
+      // .then(res=>e.target.parentElement.parentElement.remove())
     } else {
       alert('not deleted');
     }
@@ -273,6 +279,32 @@ const MyNotes = () => {
     });
   };
 
+  //Reset create note fields after creating new note
+  const resetCreateNoteFields = () => {
+    console.log("Hello");
+    document.querySelector('.new-note-title').value = '';
+    document.querySelector('.new-note-body').value = '';
+  };
+
+  //append new note
+  const appendNewNote = noteData => {
+    let newData = `
+            <li data-id="${noteData.id}">
+                <form method="get" data-id="${noteData.id}">
+                    <input class="note-title-field" type="text" name="note-title" value="${noteData.title.raw}" readonly/>
+                    <span id="edit-note" class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</span>
+                    <span id="cancel-edit" class="edit-note" style="display:none"><i class="fa fa-close" aria-hidden="true"></i>Cancel</span>
+                    <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</span>
+                    <textarea class="note-body-field" name='note-content' readonly>${noteData.content.raw}</textarea>
+                    <!-- <input id="save-note" style="display:none" type="submit" value='save'/> -->
+                    <span id="save-note" style="visibility:hidden;" class="btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i>Save</span>
+                    <span id="cancel-edit" style="visibility:hidden;" class="btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i>Cancel</span>
+                </form>
+            </li>
+        `;
+    notesBody.innerHTML = newData + notesBody.innerHTML;
+    rerunEventTriggers();
+  };
   //create new note
   const saveNewNote = async e => {
     // const ID = e.target.parentElement.dataset.id
@@ -287,7 +319,13 @@ const MyNotes = () => {
     try {
       await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(taurusData.root_url + `/wp-json/wp/v2/note/`, data, {
         headers
-      }).then(res => console.log("Notes Created"));
+      }).then(res => {
+        if (!res.data.id) {
+          errorSpan.innerText = res.data;
+        } else {
+          appendNewNote(res.data);
+        }
+      }).then(() => resetCreateNoteFields());
     } catch (err) {
       console.log(err);
     }
@@ -312,6 +350,36 @@ const MyNotes = () => {
   });
   //create new note
   createNewNoteButton.addEventListener('click', saveNewNote);
+
+  //Rerun Event triggeres after create new post
+  const rerunEventTriggers = () => {
+    //select DOM Elements again 
+    deleteNoteButton = document.querySelectorAll('.delete-note');
+    editNoteButton = document.querySelectorAll('.edit-note');
+    allTitleFields = document.querySelectorAll('.note-title-field');
+    allTextAreaFields = document.querySelectorAll('.note-body-field');
+    saveButton = document.querySelectorAll('#save-note');
+    cancelEditButton = document.querySelectorAll('#cancel-edit');
+    createNewNoteButton = document.querySelector('.submit-note');
+    notesBody = document.getElementById('my-notes');
+
+    //delete button event
+    deleteNoteButton.forEach(data => {
+      data.addEventListener('click', deleteNote);
+    });
+    //edit button event
+    editNoteButton.forEach(data => {
+      data.addEventListener('click', editNote);
+    });
+    //cancel button
+    cancelEditButton.forEach(data => {
+      data.addEventListener('click', deactivateEditFields);
+    });
+    //save updated notes
+    saveButton.forEach(data => {
+      data.addEventListener('click', updateNote);
+    });
+  };
 };
 /* harmony default export */ __webpack_exports__["default"] = (MyNotes);
 

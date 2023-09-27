@@ -14,6 +14,7 @@ get_header() ?>
             <input class="new-note-title" type="text" placeholder="Title"/>
             <textarea class="new-note-body" placeholder="Your note here..."></textarea>
             <span class="submit-note">Create Note</span>
+            <span class='error' id='error'></span>
         </div>
         <ul class="min-list link-list" id="my-notes">
             <?php 
@@ -28,7 +29,7 @@ get_header() ?>
             ?>
                 <li data-id="<?php the_ID();?>">
                     <form method="get" data-id="<?php the_ID();?>">
-                    <input class="note-title-field" type="text" name="note-title" value="<?php echo esc_attr(get_the_title());?>" readonly/>
+                    <input class="note-title-field" type="text" name="note-title" value="<?php echo str_replace('Private: ','',esc_attr(get_the_title()));?>" readonly/>
                     <span id="edit-note" class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</span>
                     <span id="cancel-edit" class="edit-note" style="display:none"><i class="fa fa-close" aria-hidden="true"></i>Cancel</span>
                     <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</span>

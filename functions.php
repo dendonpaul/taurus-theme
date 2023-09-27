@@ -116,6 +116,8 @@ function tauras_custom_post_type(){
 
     //Note post type
     register_post_type('note', array(
+        'capability_type'=>'note',
+        'map_meta_cap'=>true,
         'show_in_rest'=>true,
         'show_ui'=>true,
         'supports'=>array('title','editor'),
@@ -193,8 +195,13 @@ function tauras_acf_googlemap_filter($args){
 
 //Register REstAPI item
 function taurus_custom_rest(){
+    //get custom authorName field in rest
     register_rest_field('post','authorName',array(
         'get_callback' => function(){ return get_the_author();}
+    ));
+    //get count of posts with a user in rest
+    register_rest_field('note','postsCount',array(
+        'get_callback' => function(){ return count_user_posts(get_current_user_id(),'note');}
     ));
 }
 
@@ -221,6 +228,25 @@ function hideAdminBarforSubUsers(){
     }
 }
 
+//Force Notes Post to be private.
+function changeStatusToPrivate($post, $postArr){
+    if($post['post_type']=='note'){
+        if(count_user_posts(get_current_user_id(),'note') > 10 && !$postArr['ID']){
+            die('You have reached the limit');
+        }
+
+        $post['post_content'] = sanitize_textarea_field($post['post_content']);
+        $post['post_title'] = sanitize_text_field($post['post_title']);
+    }
+
+    if($post['post_type']=='note' AND $post['post_status'] !='trash'){
+        $post['post_status']='private';
+    }
+
+    return $post;
+}
+
+
 //Action hooks
 add_action('wp_enqueue_scripts', "tauras_theme_enqueue_scripts");
 add_action('after_setup_theme','tauras_features');
@@ -236,6 +262,8 @@ add_action('wp_loaded','hideAdminBarforSubUsers');
 //Filter Hooks
 add_filter('acf/fields/google_map/api', 'tauras_acf_googlemap_filter');
 add_filter('login_headerurl', 'changeHeaderURL');
+//Force Notes post to be private
+add_filter('wp_insert_post_data','changeStatusToPrivate',10,2);
 
 //AIzaSyC8JtvmSHV32RK2WpueRvX0ZZMIzOdDoPM
 ?>
