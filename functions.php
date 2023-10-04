@@ -40,6 +40,7 @@ function tauras_custom_post_type(){
         'capability_type'=>'campus',
         'map_meta_cap'=>true,
         'public'=>true,
+        'show_ui'=>true,
         'show_in_rest'=>true,
         'supports'=>array('title','editor', 'excerpt'),
         'menu_icon'=>'dashicons-bank',
@@ -79,6 +80,7 @@ function tauras_custom_post_type(){
         'rewrite'=>array(
             'slug'=>'programmes',
         ),
+        'show_ui'=>true,
         'capability_type'=>'programme',
         'map_meta_cap'=>true,
         'supports'=>array('title','excerpt'),
@@ -101,6 +103,7 @@ function tauras_custom_post_type(){
          'rewrite'=>array(
             'slug'=>'professors'
          ),
+         'show_ui'=>true,
          'capability_type'=>'professor',
          'map_meta_cap'=>true,
          'supports'=>array('title','editor','thumbnail'),
@@ -128,6 +131,21 @@ function tauras_custom_post_type(){
             'add_new_item'=>'Add new Note',
             'edit_item'=>'Edit Note',
             'all_items'=>'All Notes'
+        )
+    ));
+
+    //Like Professor
+    register_post_type('like', array(
+        'show_ui'=>true,
+        'public'=>false,
+        'supports'=>array('title'),
+        'menu_icon'=>'dashicons-heart',
+        'labels'=>array(
+            'name'=>'Likes',
+            'singular_name'=>'Like',
+            'add_new_item'=>'Add new Like',
+            'edit_item'=>'Edit Like',
+            'all_items'=>'All Likes'
         )
     ));
 }
@@ -200,7 +218,7 @@ function taurus_custom_rest(){
         'get_callback' => function(){ return get_the_author();}
     ));
     //get count of posts with a user in rest
-    register_rest_field('note','postsCount',array(
+    register_rest_field('note','userNoteCount',array(
         'get_callback' => function(){ return count_user_posts(get_current_user_id(),'note');}
     ));
 }
@@ -231,7 +249,7 @@ function hideAdminBarforSubUsers(){
 //Force Notes Post to be private.
 function changeStatusToPrivate($post, $postArr){
     if($post['post_type']=='note'){
-        if(count_user_posts(get_current_user_id(),'note') > 10 && !$postArr['ID']){
+        if(count_user_posts(get_current_user_id(),'note') >= 10 && !$postArr['ID']){
             die('You have reached the limit');
         }
 
@@ -252,7 +270,7 @@ add_action('wp_enqueue_scripts', "tauras_theme_enqueue_scripts");
 add_action('after_setup_theme','tauras_features');
 add_action('init', 'tauras_custom_post_type');
 add_action('pre_get_posts', 'tauras_filter_event_query');
-add_action('rest_api_init','taurus_custom_rest');
+add_action('rest_api_init','taurus_custom_rest',9,2);
 
 //redirect to frontend if user is subscriber.
 add_action('admin_init','redirectSubscriber');

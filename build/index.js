@@ -15,9 +15,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/GoogleMap */ "./src/modules/GoogleMap.js");
 /* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
 /* harmony import */ var _modules_MyNotes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/MyNotes */ "./src/modules/MyNotes.js");
+/* harmony import */ var _modules_Like__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/Like */ "./src/modules/Like.js");
 
 
 // Our modules / classes
+
 
 
 
@@ -30,6 +32,7 @@ const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default
 const googleMap = new _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_3__["default"]();
 const searchJs = (0,_modules_Search__WEBPACK_IMPORTED_MODULE_4__["default"])();
 const myNotes = (0,_modules_MyNotes__WEBPACK_IMPORTED_MODULE_5__["default"])();
+const likeProfessor = (0,_modules_Like__WEBPACK_IMPORTED_MODULE_6__["default"])();
 
 /***/ }),
 
@@ -151,6 +154,56 @@ class HeroSlider {
 
 /***/ }),
 
+/***/ "./src/modules/Like.js":
+/*!*****************************!*\
+  !*** ./src/modules/Like.js ***!
+  \*****************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+
+const Like = () => {
+  //variables
+  let userLoggedIn = false;
+
+  //DOM Selectors
+  const likeButtons = document.querySelectorAll('.like-box');
+
+  //Methods
+  //Delete like
+  const deleteLike = () => {
+    console.log('Delete Like');
+  };
+
+  //Add like
+  const addLike = () => {
+    console.log('Add Like');
+  };
+
+  //Choose to delete or add like
+  const likeClick = e => {
+    e.stopPropagation();
+    //first check if user is logged in 
+    if (document.body.classList.contains('logged-in')) {
+      if (e.target.getAttribute('data-exists') == 'yes' || e.target.parentElement.getAttribute('data-exists') == 'yes') {
+        deleteLike();
+      } else {
+        addLike();
+      }
+    } else {
+      alert('You need to login to Like a professor');
+    }
+  };
+
+  //event triggers
+  likeButtons.forEach(lb => {
+    lb.addEventListener('click', likeClick);
+  });
+};
+/* harmony default export */ __webpack_exports__["default"] = (Like);
+
+/***/ }),
+
 /***/ "./src/modules/MobileMenu.js":
 /*!***********************************!*\
   !*** ./src/modules/MobileMenu.js ***!
@@ -196,6 +249,7 @@ const MyNotes = () => {
   let createNewNoteButton = document.querySelector('.submit-note');
   let notesBody = document.getElementById('my-notes');
   let errorSpan = document.getElementById('error');
+
   //Methods--------------------------------------------------------------//
   //Delete Note
   const deleteNote = async e => {
@@ -320,6 +374,7 @@ const MyNotes = () => {
       await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(taurusData.root_url + `/wp-json/wp/v2/note/`, data, {
         headers
       }).then(res => {
+        console.log(res.data.userNoteCount);
         if (!res.data.id) {
           errorSpan.innerText = res.data;
         } else {
@@ -349,7 +404,9 @@ const MyNotes = () => {
     data.addEventListener('click', updateNote);
   });
   //create new note
-  createNewNoteButton.addEventListener('click', saveNewNote);
+  if (createNewNoteButton) {
+    createNewNoteButton.addEventListener('click', saveNewNote);
+  }
 
   //Rerun Event triggeres after create new post
   const rerunEventTriggers = () => {

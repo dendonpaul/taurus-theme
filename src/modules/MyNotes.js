@@ -11,6 +11,7 @@ const MyNotes = ()=>{
     let createNewNoteButton = document.querySelector('.submit-note');
     let notesBody = document.getElementById('my-notes');
     let errorSpan = document.getElementById('error');
+    
     //Methods--------------------------------------------------------------//
     //Delete Note
     const deleteNote = async (e)=>{
@@ -130,7 +131,14 @@ const MyNotes = ()=>{
         }
         try{
             await axios.post(taurusData.root_url+`/wp-json/wp/v2/note/`,data,{headers})
-            .then(res=>{if(!res.data.id){errorSpan.innerText = res.data} else{appendNewNote(res.data)}}).then(()=>resetCreateNoteFields())
+            .then(res=>{
+                console.log(res.data.userNoteCount);
+                if(!res.data.id)
+                    {errorSpan.innerText = res.data} 
+                else{
+                    appendNewNote(res.data)
+            }})
+            .then(()=>resetCreateNoteFields())
             
         }catch(err){
             console.log(err);
@@ -155,7 +163,8 @@ const MyNotes = ()=>{
         data.addEventListener('click',updateNote)
     });
     //create new note
-    createNewNoteButton.addEventListener('click',saveNewNote);
+    if(createNewNoteButton){
+    createNewNoteButton.addEventListener('click',saveNewNote);}
     
     //Rerun Event triggeres after create new post
     const rerunEventTriggers = () => {
