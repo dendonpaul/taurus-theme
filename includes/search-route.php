@@ -3,7 +3,7 @@
 add_action('rest_api_init', 'taurusRegisterSearch');
 
 function taurusRegisterSearch(){
-    register_rest_route('taurus/v1', 'search', array(
+    register_rest_route('taurus/v1', '/search', array(
         'methods'=>'GET',
         'callback'=> 'taurusSearchResults'
     ));

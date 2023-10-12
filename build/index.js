@@ -161,34 +161,57 @@ class HeroSlider {
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 
 const Like = () => {
   //variables
   let userLoggedIn = false;
+  const headers = {
+    'X-WP-Nonce': taurusData.nonce
+  };
 
   //DOM Selectors
   const likeButtons = document.querySelectorAll('.like-box');
 
   //Methods
   //Delete like
-  const deleteLike = () => {
-    console.log('Delete Like');
+  const deleteLike = async e => {
+    const likeBoxID = e.dataset.likeid;
+    const data = {
+      'likePostId': likeBoxID
+    };
+    axios__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"](taurusData.root_url + `/wp-json/taurus/v1/updateLike/`, data, {
+      headers
+    }).then(res => console.log(res)).catch(err => console.log(err));
   };
 
   //Add like
-  const addLike = () => {
-    console.log('Add Like');
+  const addLike = async e => {
+    const data = {
+      'professor_id': e.dataset.proffid
+    };
+    axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(taurusData.root_url + `/wp-json/taurus/v1/updateLike/`, data, {
+      headers
+    }).then(res => {
+      if (res.data != false) {
+        e.dataset.likeid = res.data;
+        let likeCount = parseInt(e.querySelectorAll('.like-count')[0].innerHTML);
+        likeCount++;
+        e.querySelectorAll('.like-count')[0].innerHTML = likeCount;
+        e.dataset.exists = "yes";
+      }
+    }).then().catch(res => console.log(res));
   };
 
   //Choose to delete or add like
   const likeClick = e => {
-    e.stopPropagation();
     //first check if user is logged in 
+    let selectLikeBox = e.target.closest('.like-box');
     if (document.body.classList.contains('logged-in')) {
-      if (e.target.getAttribute('data-exists') == 'yes' || e.target.parentElement.getAttribute('data-exists') == 'yes') {
-        deleteLike();
+      if (selectLikeBox.getAttribute('data-exists') == 'yes') {
+        deleteLike(selectLikeBox);
       } else {
-        addLike();
+        addLike(selectLikeBox);
       }
     } else {
       alert('You need to login to Like a professor');
